@@ -1,5 +1,5 @@
 ## Validator For Express
-
+[![npm version](https://badge.fury.io/js/mevn-validator.svg)](https://badge.fury.io/js/mevn-validator)
 * `npm i mevn-validator`
 * ```javascript
      var validator = require('mevn-validator')
