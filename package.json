@@ -1,0 +1,16 @@
+{
+  "name": "mevn-validator",
+  "version": "1.0.0",
+  "description": "a simple validation package",
+  "main": "validator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "validator",
+    "express",
+    "mevn"
+  ],
+  "author": "Stanley Masinde",
+  "license": "MIT"
+}
