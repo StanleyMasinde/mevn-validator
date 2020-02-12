@@ -6,12 +6,11 @@ class Validator {
     /**
      * Fileds under validation
      */
-    fields = {}
+    fields
     /**
      * Error Messages if any
      */
     messages = {}
-    errorcount = []
 
 
     /**
@@ -30,16 +29,23 @@ class Validator {
      * 
      */
     validate() {
+        if (Object.keys(this.fields).length < 1) {
+            return new Promise((resolve, reject) => {
+                reject('Nothing to validate')
+            })
+        }
         return new Promise((resolve, reject) => {
             Object.entries(this.rules).forEach(el => {
                 this.messages[el[0]] = []
                 this.getFieldRules(el[1], el[0])
             })
 
+
+
             let errorLengths = Object.values(this.messages).map(el => el.length)
             errorLengths.reduce((pre, cur) => {
                 return pre + cur
-            }) == 0 ? resolve('valid') : reject(this.messages)
+            }) == 0 ? resolve('valid') : reject({ errors: this.messages })
 
         })
     }
@@ -51,7 +57,9 @@ class Validator {
     getFieldRules(rules, field) {
         let rulesArr = rules.split('|')
         rulesArr.forEach(rule => {
-            switch (rule) {
+            let nRule = rule.split(':')
+            let secParam = nRule[1]
+            switch (nRule[0]) {
                 case 'required':
                     this.required(field)
                     break;
@@ -61,6 +69,12 @@ class Validator {
                 case 'string':
                     this.string(field)
                     break
+                case 'min':
+                    this.min(field, secParam)
+                    break
+                case 'max':
+                    this.max(field, secParam)
+                    break
                 default:
                     break;
             }
@@ -68,11 +82,18 @@ class Validator {
     }
 
     /**
+     * 
+     * @param {string} field 
+     */
+    friendlyName(field) {
+        return `The ${field.split('_').join(' ')}`
+    }
+    /**
      * The filed under validation mus not be null
      * @param {String} field 
      */
     required(field) {
-        return this.fields[field] == '' | this.fields[field] == null ? this.messages[field].push(`The ${field} is required`) : true
+        return this.fields[field] == '' | this.fields[field] == null ? this.messages[field].push(`${this.friendlyName(field)} is required`) : true
     }
     /**
      * Validate an email address
@@ -84,7 +105,7 @@ class Validator {
 
         }
         else {
-            this.messages[field].push(`The ${field} field should be a valid E-mail`)
+            this.messages[field].push(`${this.friendlyName(field)} should be a valid E-mail`)
         }
     }
 
@@ -93,8 +114,8 @@ class Validator {
      * @param {String} field 
      */
     string(field) {
-        let rgx = new RegExp('[a-z]+[0-9]', 'gm')
-        return rgx.test(field) == true ? true : this.messages[field].push(`The ${field} field should be a string`)
+        let rgx = new RegExp(/[A-Za-z]/)
+        return rgx.test(this.fields[field]) ? true : this.messages[field].push(`${this.friendlyName(field)} should be a string`)
     }
 
     /**
@@ -103,7 +124,10 @@ class Validator {
      * @param {Number} limit 
      */
     min(field, limit) {
-
+        if (this.fields[field] == undefined) {
+            return
+        }
+        return this.fields[field].length < limit ? this.messages[field].push(`${this.friendlyName(field)}  should be longer than ${limit}`) : true
     }
 
     /**
@@ -112,7 +136,10 @@ class Validator {
      * @param {Number} limit 
      */
     max(field, limit) {
-
+        if (this.fields[field] == undefined) {
+            return
+        }
+        return this.fields[field].length > limit ? this.messages[field].push(`${this.friendlyName(field)} should be shorter than ${limit}`) : true
     }
 }
 
