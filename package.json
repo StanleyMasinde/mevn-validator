@@ -1,6 +1,6 @@
 {
   "name": "mevn-validator",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "a simple validation package",
   "main": "validator.js",
   "scripts": {
