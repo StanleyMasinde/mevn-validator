@@ -29,19 +29,16 @@ class Validator {
      * 
      */
     validate() {
+        /**Bail early if there are no fields specified*/
         if (Object.keys(this.fields).length < 1) {
-            return new Promise((resolve, reject) => {
-                reject('Nothing to validate')
-            })
+            this.messages['error'].push('Nothing to validate')
+            Promise.reject({ errors: this.messages })
         }
         return new Promise((resolve, reject) => {
             Object.entries(this.rules).forEach(el => {
                 this.messages[el[0]] = []
                 this.getFieldRules(el[1], el[0])
             })
-
-
-
             let errorLengths = Object.values(this.messages).map(el => el.length)
             errorLengths.reduce((pre, cur) => {
                 return pre + cur

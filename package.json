@@ -1,6 +1,6 @@
 {
   "name": "mevn-validator",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "a simple validation package",
   "main": "validator.js",
   "scripts": {
@@ -15,10 +15,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/stannlee/mevn-validator.git"
+    "url": "git+https://github.com/StanleyMasinde/mevn-validator.git"
   },
   "bugs": {
-    "url": "https://github.com/stannlee/mevn-validator/issues"
+    "url": "https://github.com/StanleyMasinde/mevn-validator/issues"
   },
-  "homepage": "https://github.com/stannlee/mevn-validator#readme"
+  "homepage": "https://github.com/StanleyMasinde/mevn-validator#readme"
 }
