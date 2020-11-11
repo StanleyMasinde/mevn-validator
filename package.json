@@ -2,7 +2,7 @@
   "name": "mevn-validator",
   "version": "1.0.4",
   "description": "a simple validation package",
-  "main": "validator.js",
+  "main": "dist/validator.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,12 +13,14 @@
   ],
   "author": "Stanley Masinde",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/StanleyMasinde/mevn-validator.git"
-  },
+  "repository": "git+https://github.com/StanleyMasinde/mevn-validator.git",
   "bugs": {
     "url": "https://github.com/StanleyMasinde/mevn-validator/issues"
   },
-  "homepage": "https://github.com/StanleyMasinde/mevn-validator#readme"
+  "homepage": "https://github.com/StanleyMasinde/mevn-validator#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^4.0.5"
+  },
+  "private": false
 }
