@@ -1,19 +1,18 @@
-//@ts-check
 class Validator {
     /**
      * The fields under validation
      */
-    fields: {}
+    fields: Object
 
     /**
      * The validation rules
      */
-    rules: {}
+    rules: Object
 
     /**
      * The message bag
      */
-    messages: {}
+    messages: Object
 
     /**
      * Validate the input
@@ -23,6 +22,7 @@ class Validator {
     constructor(fields: {}, rules: {}) {
         this.fields = fields
         this.rules = rules
+        this.messages = {}
     }
 
     /**
@@ -77,7 +77,6 @@ class Validator {
                     break
                 case 'max':
                     this.max(field, ruleParam)
-                    break
                     break;
                 default:
                     break;
@@ -89,21 +88,21 @@ class Validator {
      * 
      * @param {string} field 
      */
-    friendlyName(field: string) {
+    private friendlyName(field: string) {
         return `The ${field.split('_').join(' ')}`
     }
     /**
      * The filed under validation mus not be null
      * @param {String} field 
      */
-    required(field: string) {
+    private required(field: string) {
         return this.fields[field] == '' || this.fields[field] == null ? this.messages[field].push(`${this.friendlyName(field)} is required`) : true
     }
     /**
      * Validate an email address
      * @param {String} field 
      */
-    email(field: string) {
+    private email(field: string) {
         let rgx = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
         if (rgx.test(this.fields[field]) == true) {
 
@@ -117,7 +116,7 @@ class Validator {
      * Validate a string
      * @param {String} field 
      */
-    string(field: string) {
+    private string(field: string) {
         let rgx = new RegExp(/[A-Za-z]/)
         return rgx.test(this.fields[field]) ? true : this.messages[field].push(`${this.friendlyName(field)} should be a string`)
     }
@@ -127,7 +126,7 @@ class Validator {
      * @param {String} field 
      * @param {Number} limit 
      */
-    min(field: string, limit: number) {
+    private min(field: string, limit: number) {
         if (this.fields[field] == undefined) {
             return
         }
@@ -139,7 +138,7 @@ class Validator {
      * @param {Sring} field 
      * @param {Number} limit 
      */
-    max(field: string, limit: number) {
+    private max(field: string, limit: number) {
         if (this.fields[field] == undefined) {
             return
         }
@@ -147,4 +146,4 @@ class Validator {
     }
 }
 
-export default Validator
+export = Validator

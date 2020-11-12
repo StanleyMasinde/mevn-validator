@@ -1,6 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-//@ts-check
 class Validator {
     /**
      * Validate the input
@@ -10,6 +8,7 @@ class Validator {
     constructor(fields, rules) {
         this.fields = fields;
         this.rules = rules;
+        this.messages = {};
     }
     /**
      * Run the validator
@@ -60,7 +59,6 @@ class Validator {
                     break;
                 case 'max':
                     this.max(field, ruleParam);
-                    break;
                     break;
                 default:
                     break;
@@ -124,4 +122,4 @@ class Validator {
         return this.fields[field].length > limit ? this.messages[field].push(`${this.friendlyName(field)} should be shorter than ${limit}`) : true;
     }
 }
-exports.default = Validator;
+module.exports = Validator;

@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    /* Basic Options */
-    // "incremental": true,                 
+    "declaration": true,          
     "target": "ES2020",
     "module": "CommonJS",
     "outDir": "./dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
   },
   "files": [
     "src/validator.ts"
