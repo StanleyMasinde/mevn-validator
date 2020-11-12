@@ -1,50 +1,51 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+//@ts-check
 class Validator {
     /**
-     * Input fields and the rules
-     * Both are objects
-     * @param {Array} fields
-     * @param {Array} rules
+     * Validate the input
+     * @param fields
+     * @param rules
      */
     constructor(fields, rules) {
-        /**
-         * Rules for the current validation
-         */
-        this.rules = {};
-        /**
-         * Error Messages if any
-         */
-        this.messages = {};
         this.fields = fields;
         this.rules = rules;
     }
     /**
-     * Start the validatior
-     *
+     * Run the validator
      */
     validate() {
         return new Promise((resolve, reject) => {
-            Object.entries(this.rules).forEach(el => {
-                this.messages[el[0]] = [];
-                this.getFieldRules(el[1], el[0]);
+            Object.entries(this.rules).forEach(rule => {
+                // Create a message bag
+                this.messages[rule[0]] = []; // eg. {email: required|email} will create {email: []}
+                this.getFieldRules(rule[1], rule[0]);
             });
-            let errorLengths = Object.values(this.messages).map(el => el.length);
+            let errorLengths = Object.values(this.messages).map((el) => el.length);
             errorLengths.reduce((pre, cur) => {
                 return pre + cur;
-            }) == 0 ? resolve('valid') : reject({ errors: this.messages });
+            }) === 0 ? resolve('valid') : reject({ errors: this.messages });
         });
     }
     /**
-     *
-     * @param {String} rules
+     * Get an array of rules from the supplied string
+     * @param rules
+     * @param field
      */
     getFieldRules(rules, field) {
-        let rulesArr = rules.split('|');
-        rulesArr.forEach(rule => {
-            let nRule = rule.split(':');
-            let secParam = nRule[1];
-            switch (nRule[0]) {
+        const rulesArray = rules.split('|'); // required|email will be ['required', email]
+        this.validateField(rulesArray, field);
+    }
+    /**
+     * Validate a given field
+     * @param rules
+     * @param fields
+     */
+    validateField(rules, field) {
+        rules.forEach(r => {
+            const rule = r.split(':'); // If the rule has a second param eg min:0
+            const ruleParam = parseInt(rule[1]);
+            switch (rule[0]) {
                 case 'required':
                     this.required(field);
                     break;
@@ -55,10 +56,11 @@ class Validator {
                     this.string(field);
                     break;
                 case 'min':
-                    this.min(field, secParam);
+                    this.min(field, ruleParam);
                     break;
                 case 'max':
-                    this.max(field, secParam);
+                    this.max(field, ruleParam);
+                    break;
                     break;
                 default:
                     break;
@@ -77,7 +79,7 @@ class Validator {
      * @param {String} field
      */
     required(field) {
-        return this.fields[field] == '' | this.fields[field] == null ? this.messages[field].push(`${this.friendlyName(field)} is required`) : true;
+        return this.fields[field] == '' || this.fields[field] == null ? this.messages[field].push(`${this.friendlyName(field)} is required`) : true;
     }
     /**
      * Validate an email address
