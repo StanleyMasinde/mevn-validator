@@ -1,6 +1,6 @@
 {
   "name": "mevn-validator",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "a simple validation package",
   "main": "dist/validator.js",
   "maintainers": [
@@ -29,7 +29,6 @@
     "url": "https://github.com/StanleyMasinde/mevn-validator/issues"
   },
   "homepage": "https://github.com/StanleyMasinde/mevn-validator#readme",
-  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^26.0.19",
     "@typescript-eslint/eslint-plugin": "^4.11.0",
