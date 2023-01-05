@@ -62,3 +62,8 @@ test('Chaining rules (Invalid)', () => {
 	const prom = new Validator({ 'email': '' }, { email: 'required|email|max:13|min:5' }).validate()
 	return expect(prom).rejects.toEqual({ 'errors': { 'email': ['The email is required', 'The email should be a valid E-mail', 'The email  should be longer than 5'] } })
 })
+
+test('Camel case field names should be human friendly', () => {
+	const prom = new Validator({ 'fullName': '' }, { fullName: 'required' }).validate()
+	return expect(prom).rejects.toEqual({ 'errors': { 'fullName': ['The full name is required'] } })
+})
