@@ -105,8 +105,8 @@ class Validator {
      * The filed under validation mus not be null
      * @param {String} field 
      */
-	private required(field: string) {
-		return this.fields[field] == '' || this.fields[field] == null ? this.messages[field].push(`${this.friendlyName(field)} is required`) : true
+	private required(field: string | number) {
+		return this.fields[field] === '' || this.fields[field] === null ? this.messages[field].push(`${this.friendlyName(field.toString())} is required`) : true
 	}
 	/**
      * Validate an email address
