@@ -13,6 +13,11 @@ test('Validate required (null value)', () => {
 	return expect(prom).rejects.toEqual({ 'errors': { 'username': ['The username is required'] } })
 })
 
+test('Validate 0 should not be treated as null', () => {
+	const prom = new Validator({ 'username': 12 }, { username: 'required' }).validate()
+	return expect(prom).resolves.toEqual('valid')
+})
+
 test('Validate Email (Invalid email)', () => {
 	const prom = new Validator({ 'email': 'email.com' }, { email: 'email' }).validate()
 	return expect(prom).rejects.toEqual({ 'errors': { 'email': ['The email should be a valid E-mail'] } })
